@@ -19,11 +19,6 @@ class Genes:
         """
         Sets random genes for heredity
         """
-        # for trait, value in self.father.genes.phenotype.items():
-        #     if randint(0, 1):
-        #         self.phenotype[trait] = self.mother.genes.phenotype[trait]
-        #     else:
-        #         self.phenotype[trait] = self.father.genes.phenotype[trait]
         for trait in self.phenotype.__dict__.keys():
             if randint(0, 1):
                 mother_trait_value = getattr(self.mother.genes.phenotype,trait)
@@ -32,6 +27,6 @@ class Genes:
                 father_trait_value = getattr(self.father.genes.phenotype, trait)
                 setattr(self.phenotype, trait, father_trait_value)
 
-    # def mutation(self):
-    #     mutation_part = choice(self.phenotype.items())
-    #     if mutation_part
+    def mutation(self, part):
+        mutation_value = self.phenotype[part]
+        self.mutation
