@@ -27,6 +27,5 @@ class Genes:
                 father_trait_value = getattr(self.father.genes.phenotype, trait)
                 setattr(self.phenotype, trait, father_trait_value)
 
-    def mutation(self, part):
-        mutation_value = self.phenotype[part]
-        self.mutation
+    def mutation(self, part, point):
+        self.phenotype.mutate(part,point)

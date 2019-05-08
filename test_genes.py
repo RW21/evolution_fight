@@ -18,4 +18,4 @@ class TestGenes(TestCase):
     def test_heredity(self):
         child = Monster(mother=mother, father=father)
         assert child.genes.phenotype.speed == child.genes.mother.genes.phenotype.speed or \
-               child.genes.father.phenotype.speed == child.genes.mother.genes.phenotype.speed
+               child.genes.phenotype.speed == child.genes.father.genes.phenotype.speed
