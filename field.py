@@ -1,6 +1,6 @@
 from collections import namedtuple
 from random import choice
-import numpy.random as nprandom
+import numpy as np
 from numpy import array
 
 from monster import Monster
@@ -17,38 +17,50 @@ biome_choices = {'desert':
 def food_probability(subbiome: SubBiome):
     return (subbiome.water + subbiome.tree + subbiome.light) / 3
 
+
 def probability(prob):
-    if prob * 100 >= nprandom.randint(0,100):
+    if prob * 100 >= np.random.randint(0, 100):
         return True
     else:
         return False
 
 
-
 class Field:
-    def __init__(self, x, y, biome=None, *args: Monster):
+    def __init__(self, x, y=None, biome=None, *args: Monster):
         self.x = x
-        self.y = y
-        self.grid = [[(i, j) for i in range(x)] for j in range(y)]
+
+        if y is None:
+            self.y = x
+        else:
+            self.y = y
 
         if biome is None:
             self.biome = choice(list(biome_choices.keys()))
         else:
             self.biome = biome
 
-        self.creatures = [arg for arg in args]
-        self.food = len(self.creatures)
+        self.grid = [[(i, j) for i in range(self.x)] for j in range(self.y)]
+
+        self.monsters = [arg for arg in args]
+        self.food = len(self.monsters)
 
     def fill_grid(self):
-        # subbiome_list = biome_choices[self.biome]
-        # subbiome_list = [1,2,3]
+        """
+        Fill grid with subfields associated with subbiomes.
+        The probability of the subbiomes are considered.
+        Also fills in grid with all food available.
+        """
+        # get probability of each subbiomes as a list
         probability_of_subbiomes = [probability_.probability for probability_ in biome_choices[self.biome]]
-        subbiome_list = [name_.name for name_ in biome_choices[self.biome]]
+        # get each subbiome name as a list
+        # use numpy array because numpy's random.choice sees values with subbiomes as a 2d array
+        subbiome_list = np.array(len(list(biome_choices.values())[0]))
 
         for i in range(self.x):
             for j in range(self.y):
 
-                selected_subbiome = nprandom.choice(a=subbiome_list, size = 1, p=probability_of_subbiomes)[0]
+                selected_subbiome_index = np.random.choice(a=subbiome_list, p=probability_of_subbiomes)
+                selected_subbiome = biome_choices[self.biome][selected_subbiome_index]
 
                 # place food in subfield
                 if probability(food_probability(selected_subbiome)) and self.food > 0:
@@ -58,10 +70,11 @@ class Field:
                     self.grid[i][j] = SubField(False, selected_subbiome)
 
 
-
-
 class SubField():
-    def __init__(self, food: bool, subbiome=choice(list(biome_choices.items()))):
+    def __init__(self, food: bool, subbiome: SubBiome):
         self.subbiome = subbiome
         self.existing_creatures = []
         self.food = food
+
+    def __repr__(self):
+        return str(self.subbiome) + " food: " + str(self.food)
