@@ -17,6 +17,7 @@ class BaseMonster:
         self.speed = Value(None, 0, 100)
         self.vision = Value(None, 0, 100)
         self.hearing = Value(None, 0, 100)
+        self.smell = Value(None, 0, 100)
         self.color = Color(0, 0, 0)
 
     def __getitem__(self, key):
@@ -32,21 +33,20 @@ class BaseMonster:
 
         # mutate color of creature
         if type(value_) == Color:
-            random_int = randint(0,2)
+            random_int = randint(0, 2)
             if random_int == 0:
                 self.color.B = (self.color.B + point) % 255
 
-            if random_int(0,2) == 1:
+            if random_int(0, 2) == 1:
                 self.color.R = (self.color.R + point) % 255
 
-            if random_int(0,2) == 2:
+            if random_int(0, 2) == 2:
                 self.color.G = (self.color.G + point) % 255
 
         if type(value_) == Probability:
-            new_value = value_.probability + (point*0.01)
+            new_value = value_.probability + (point * 0.01)
             setattr(self, attribute, new_value)
 
         if type(value_) == Value:
             new_value = value_.value + point
             setattr(self, attribute, new_value)
-

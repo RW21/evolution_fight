@@ -1,7 +1,9 @@
 from collections import namedtuple
-from random import choice
+from dataclasses import dataclass
+from random import choice, random
 import numpy as np
 from numpy import array
+from typing import List
 
 from monster import Monster
 
@@ -25,6 +27,15 @@ def probability(prob):
         return False
 
 
+@dataclass
+class Direction:
+    water: float
+    food: float
+    monster: float
+
+
+
+
 class Field:
     def __init__(self, x, monsters, y=None, biome=None, ):
         self.x = x
@@ -39,10 +50,13 @@ class Field:
         else:
             self.biome = biome
 
-        self.grid = [[(i, j) for i in range(self.x)] for j in range(self.y)]
+        self.grid: List[SubField] = [[(i, j) for i in range(self.x)] for j in range(self.y)]
 
+        # perhaps use args
         self.monsters = monsters
         self.food = len(self.monsters)
+
+        self.monster_locations = {}
 
     def fill_grid(self):
         """
@@ -69,6 +83,25 @@ class Field:
                 else:
                     self.grid[i][j] = SubField(False, selected_subbiome)
 
+    def spawn_monsters(self):
+        """
+        Spawn monsters inside of subfields in the field.
+        """
+        for monster in self.monsters:
+            random_x = random.randint(self.x)
+            random_y = random.randint(self.y)
+
+            self.monster_locations[monster] = [random_x, random_y]
+
+            self.grid[random_x][random_y].existing_creatures.append(monster)
+
+    def update_directions(self, monster: Monster):
+        monster.directions.food =
+
+    def turn(self):
+
+
+
 
 class SubField():
     def __init__(self, food: bool, subbiome: SubBiome):
@@ -78,3 +111,4 @@ class SubField():
 
     def __repr__(self):
         return str(self.subbiome) + " food: " + str(self.food)
+
