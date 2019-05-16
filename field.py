@@ -26,7 +26,7 @@ def probability(prob):
 
 
 class Field:
-    def __init__(self, x, y=None, biome=None, *args: Monster):
+    def __init__(self, x, monsters, y=None, biome=None, ):
         self.x = x
 
         if y is None:
@@ -41,7 +41,7 @@ class Field:
 
         self.grid = [[(i, j) for i in range(self.x)] for j in range(self.y)]
 
-        self.monsters = [arg for arg in args]
+        self.monsters = monsters
         self.food = len(self.monsters)
 
     def fill_grid(self):

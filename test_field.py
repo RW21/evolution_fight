@@ -10,7 +10,7 @@ monster_3 = Monster()
 class TestField(TestCase):
     def test_fill_grid(self):
         size = 3
-        field = Field(size, monster_1, monster_2, monster_3)
+        field = Field(size, [monster_1, monster_2, monster_3])
 
         field.fill_grid()
         pprint(field.grid)
@@ -21,4 +21,11 @@ class TestField(TestCase):
                 if field.grid[i][j] is None:
                     is_grid_full = False
 
-        assert is_grid_full and field.food == 0
+        assert is_grid_full
+
+    def test_fill_grid_food(self):
+        field = Field(3, [monster_1, monster_2, monster_3])
+
+        field.fill_grid()
+
+        assert field.food == 0
