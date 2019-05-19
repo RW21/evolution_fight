@@ -29,3 +29,32 @@ class TestField(TestCase):
         field.fill_grid()
 
         assert field.food == 0
+
+    def test_monster_direction(self):
+        monster_1.food = 50
+
+        field = Field(4, [monster_1])
+        field.fill_grid()
+        field.monster_locations.clear()
+        field.food_locations.clear()
+
+        # place food and monster
+        location: SubField
+        for x, i in enumerate(field.grid):
+            for y, location in enumerate(i):
+                if x == 2 and y == 2:
+                    location.existing_creatures.append(field.monsters)
+                    field.monster_locations[monster_1] = [2, 2]
+
+                elif x == 0 and y == 0:
+                    location.food = True
+                    field.food_locations.append([0, 0])
+
+                else:
+                    location.food = False
+                    location.existing_creatures.clear()
+
+        for i in range(2):
+            field.turn()
+
+        assert field.monster_locations[monster_1] == [0, 0]

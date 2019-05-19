@@ -172,13 +172,16 @@ class Field:
                                                                                            location != monster_location]))
 
     def turn(self):
+        """
+        A day in the field.
+        """
         for monster, location in self.monster_locations.items():
             self.update_directions(monster)
             monster.direction_correction()
 
             current_subfield = self.grid[location[0]][location[1]]
 
-            if monster.health <= 0:
+            if monster.health <= 0 or monster.water <= 0 or monster.water <= 0:
                 del self.monster_locations[monster]
                 current_subfield.existing_creatures.remove(monster)
 
@@ -205,6 +208,9 @@ class Field:
                         for other_monster in current_subfield.existing_creatures:
                             if other_monster != monster:
                                 monster.fight(other_monster)
+
+            monster.water = monster.water - monster.maximum * 0.1
+            monster.food = monster.food - monster.maximum * 0.1
 
     def move_monster(self, monster: Monster, angle):
         angle = angle % 360
