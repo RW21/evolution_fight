@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 
 from base_monster import BaseMonster
@@ -34,6 +36,9 @@ class Monster:
         return (self.genes.phenotype.vision.value * 0.1 + self.genes.phenotype.smell.value * 0.1 +
                 self.genes.phenotype.hearing.value * 0.1) / 3
 
+    def strength(self):
+        return (self.genes.phenotype.size * 0.1 + self.genes.phenotype.speed * 0.1) / 2
+
     def priority(self) -> str:
         """
         Chooses what to chase.
@@ -61,5 +66,22 @@ class Monster:
         self.directions.water = random.randint(self.directions.water * self.water_sensitivity(),
                                                self.directions.water * (1 + (1 - self.water_sensitivity())))
 
-    def fight(self, monster_to_fight):
-        def
+    def fight(self, monster_to_fight: Monster) -> int:
+        monster_to_fight.health = monster_to_fight.health - self.maximum * self.strength()
+        self.health = self.health - monster_to_fight.maximum * monster_to_fight.strength()
+
+        # dies from fight
+        if self.health <= 0:
+            # gets eaten
+            if monster_to_fight.genes.phenotype.size > self.genes.phenotype.size:
+                monster_to_fight.food = monster_to_fight.food + 50
+            return 0
+        # wins fight
+        elif monster_to_fight.health <= 0:
+            # eat monster
+            if monster_to_fight.genes.phenotype.size < self.genes.phenotype.size:
+                self.food = self.food + 50
+            return 1
+        # neither
+        else:
+            return 2
