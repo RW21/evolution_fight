@@ -40,6 +40,23 @@ class TestField(TestCase):
 
         assert is_grid_full
 
+    def test_fill_grid_type(self):
+        """
+        Checks if every grid is a subfield.
+        """
+        field = Field(3, [monster_1, monster_2, monster_3])
+
+        field.fill_grid()
+        pprint(field.grid)
+
+        for i in field.grid:
+            for j in i:
+                if type(j) != SubField:
+                    assert False
+
+        assert True
+
+
     def test_fill_grid_food(self):
         field = Field(3, [monster_1, monster_2, monster_3])
 
