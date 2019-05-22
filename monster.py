@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 
 from base_monster import BaseMonster
-from field import Direction
+from direction import Direction
 from genes import Genes
 
 
@@ -12,7 +12,7 @@ class Monster:
         self.genes: Genes = Genes(mother, father)
         self.body: BaseMonster = self.genes.phenotype
 
-        self.directions: Direction = None
+        self.directions: Direction = Direction()
 
         self.health = 100
         self.food = 50
@@ -23,18 +23,21 @@ class Monster:
     def __str__(self):
         return self.genes.phenotype
 
+    def __repr__(self):
+        return 'monster'
+
     def add_direction(self, directions: Direction):
         self.directions = directions
 
     def water_sensitivity(self):
-        return self.genes.phenotype.vision.value * 0.1
+        return self.genes.phenotype.vision * 0.1
 
     def food_sensitivity(self):
-        return (self.genes.phenotype.vision.value * 0.1 + self.genes.phenotype.smell.value * 0.1) / 2
+        return (self.genes.phenotype.vision * 0.1 + self.genes.phenotype.smell * 0.1) / 2
 
     def monster_sensitivity(self):
-        return (self.genes.phenotype.vision.value * 0.1 + self.genes.phenotype.smell.value * 0.1 +
-                self.genes.phenotype.hearing.value * 0.1) / 3
+        return (self.genes.phenotype.vision * 0.1 + self.genes.phenotype.smell * 0.1 +
+                self.genes.phenotype.hearing * 0.1) / 3
 
     def strength(self):
         return (self.genes.phenotype.size * 0.1 + self.genes.phenotype.speed * 0.1) / 2

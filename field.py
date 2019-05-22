@@ -1,9 +1,7 @@
 import math
 from collections import namedtuple
-from dataclasses import dataclass
 from random import choice, random
 import numpy as np
-from numpy import array
 from typing import List
 
 from monster import Monster
@@ -15,17 +13,6 @@ biome_choices = {'desert':
                      [SubBiome('oasis', 0.35, 40, 0.9, 0.8, 0.1, 0.4, 0.1),
                       SubBiome('dunes', 0.1, 40, 0.01, 0.9, 0.75, 0.1, 0.5),
                       SubBiome('desert', 0.1, 40, 0.01, 0.9, 0.2, 0.1, 0.4)]}
-
-
-@dataclass
-class Direction:
-    """
-    Stores angles in degrees.
-    """
-    water: float
-    food: float
-    monster: float
-
 
 water_threshold = 0.8
 
@@ -123,8 +110,8 @@ class Field:
 
                     self.food_locations.append([i, j])
 
-                    if selected_subbiome.water >= water_threshold:
-                        self.water_locations.append([i, j])
+                if selected_subbiome.water >= water_threshold:
+                    self.water_locations.append([i, j])
 
                 else:
                     self.grid[i][j] = SubField(False, selected_subbiome)
@@ -144,6 +131,7 @@ class Field:
     def get_closest_from_monster(self, monster: Monster, location_list: list) -> list:
         monster_location = self.monster_locations[monster]
 
+        min_point = None
         min_ = self.x * 100
         for point in location_list:
             distance = get_distance_between(point, monster_location)
@@ -164,7 +152,9 @@ class Field:
                                                          self.get_closest_from_monster(monster, self.food_locations))
         monster.directions.water = get_relative_direction(monster_location,
                                                           self.get_closest_from_monster(monster, self.water_locations))
-        monster.directions.monster = get_relative_direction(monster_location,
+
+        if len(self.monsters) > 1:
+            monster.directions.monster = get_relative_direction(monster_location,
                                                             self.get_closest_from_monster(monster,
                                                                                           [location for location in
                                                                                            self.monster_locations.values()

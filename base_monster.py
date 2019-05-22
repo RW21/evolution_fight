@@ -12,12 +12,12 @@ class BaseMonster:
         self.gender = bool
         self.gender_probability = Probability(None)
         self.death_probability = Probability(None)
-        self.skin = Value(None, 0, 100)
-        self.size = Value(None, 0, 100)
-        self.speed = Value(None, 0, 100)
-        self.vision = Value(None, 0, 100)
-        self.hearing = Value(None, 0, 100)
-        self.smell = Value(None, 0, 100)
+        self.skin = 0
+        self.size = 0
+        self.speed = 0
+        self.vision = 0
+        self.hearing = 0
+        self.smell = 0
         self.color = Color(0, 0, 0)
 
     def __getitem__(self, key):
