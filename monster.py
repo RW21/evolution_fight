@@ -62,11 +62,11 @@ class Monster:
         Update direction of correction based on monster's sensitivity.
         If direction is 100 and sensitivity is 0.8, it will update the direction x to a random number between 80 < x < 120.
         """
-        self.directions.monster = random.randint(self.directions.monster * self.monster_sensitivity(),
+        self.directions.monster = random.uniform(self.directions.monster * self.monster_sensitivity(),
                                                  self.directions.monster * (1 + (1 - self.monster_sensitivity())))
-        self.directions.food = random.randint(self.directions.food * self.food_sensitivity(),
+        self.directions.food = random.uniform(self.directions.food * self.food_sensitivity(),
                                               self.directions.food * (1 + (1 - self.food_sensitivity())))
-        self.directions.water = random.randint(self.directions.water * self.water_sensitivity(),
+        self.directions.water = random.uniform(self.directions.water * self.water_sensitivity(),
                                                self.directions.water * (1 + (1 - self.water_sensitivity())))
 
     def fight(self, monster_to_fight: Monster) -> int:

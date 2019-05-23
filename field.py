@@ -246,4 +246,4 @@ class SubField:
         self.food = food
 
     def __repr__(self):
-        return str(self.subbiome) + " food: " + str(self.food) + 'monsters: ' + str(self.existing_creatures)
+        return str(self.subbiome) + " food: " + str(self.food) + ' monsters: ' + str(self.existing_creatures)

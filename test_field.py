@@ -10,16 +10,19 @@ monster_1.genes.phenotype.vision = 100
 monster_1.genes.phenotype.hearing = 80
 monster_1.genes.phenotype.speed = 100
 monster_1.genes.phenotype.smell = 80
+monster_1.genes.phenotype.size = 100
 
 monster_2.genes.phenotype.vision = 100
 monster_2.genes.phenotype.hearing = 80
 monster_2.genes.phenotype.speed = 100
 monster_2.genes.phenotype.smell = 80
+monster_2.genes.phenotype.size = 100
 
 monster_3.genes.phenotype.vision = 100
 monster_3.genes.phenotype.hearing = 80
 monster_3.genes.phenotype.speed = 100
 monster_3.genes.phenotype.smell = 80
+monster_3.genes.phenotype.size = 100
 
 Oasis = SubBiome('oasis', 0.35, 40, 0.9, 0.8, 0.1, 0.4, 0.1)
 
@@ -55,7 +58,6 @@ class TestField(TestCase):
                     assert False
 
         assert True
-
 
     def test_fill_grid_food(self):
         field = Field(3, [monster_1, monster_2, monster_3])
@@ -95,7 +97,6 @@ class TestField(TestCase):
                 else:
                     location.food = False
                     # location.existing_creatures.clear()
-
 
         for i in range(2):
             field.turn()
