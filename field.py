@@ -92,7 +92,7 @@ class Field:
         Also fills in grid with all food available.
         """
         # get probability of each subbiomes as a list
-        probability_of_subbiomes = [probability_.probability for probability_ in biome_choices[self.biome]]
+        probability_of_subbiomes = [biome.probability for biome in biome_choices[self.biome]]
         # get each subbiome name as a list
         # use numpy array because numpy's random.choice sees values with subbiomes as a 2d array
         subbiome_list = np.array(len(list(biome_choices.values())[0]))
@@ -114,6 +114,10 @@ class Field:
                     self.water_locations.append([i, j])
 
                 else:
+                    self.grid[i][j] = SubField(False, selected_subbiome)
+
+                # verify if filled with subfield
+                if type(self.grid[i][j]) != SubField:
                     self.grid[i][j] = SubField(False, selected_subbiome)
 
     def spawn_monsters(self):
@@ -155,11 +159,11 @@ class Field:
 
         if len(self.monsters) > 1:
             monster.directions.monster = get_relative_direction(monster_location,
-                                                            self.get_closest_from_monster(monster,
-                                                                                          [location for location in
-                                                                                           self.monster_locations.values()
-                                                                                           if
-                                                                                           location != monster_location]))
+                                                                self.get_closest_from_monster(monster,
+                                                                                              [location for location in
+                                                                                               self.monster_locations.values()
+                                                                                               if
+                                                                                               location != monster_location]))
 
     def turn(self):
         """
@@ -242,4 +246,4 @@ class SubField:
         self.food = food
 
     def __repr__(self):
-        return str(self.subbiome) + " food: " + str(self.food)
+        return str(self.subbiome) + " food: " + str(self.food) + 'monsters: ' + str(self.existing_creatures)
