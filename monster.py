@@ -32,17 +32,17 @@ class Monster:
         self.directions = directions
 
     def water_sensitivity(self):
-        return self.genes.phenotype.vision * 0.1
+        return self.genes.phenotype.vision / 100
 
     def food_sensitivity(self):
-        return (self.genes.phenotype.vision * 0.1 + self.genes.phenotype.smell * 0.1) / 2
+        return (self.genes.phenotype.vision / 100 + self.genes.phenotype.smell / 100) / 2
 
     def monster_sensitivity(self):
-        return (self.genes.phenotype.vision * 0.1 + self.genes.phenotype.smell * 0.1 +
-                self.genes.phenotype.hearing * 0.1) / 3
+        return (self.genes.phenotype.vision / 100 + self.genes.phenotype.smell / 100 +
+                self.genes.phenotype.hearing / 100) / 3
 
     def strength(self):
-        return (self.genes.phenotype.size * 0.1 + self.genes.phenotype.speed * 0.1) / 2
+        return (self.genes.phenotype.size / 100 + self.genes.phenotype.speed / 100) / 2
 
     def priority(self) -> str:
         """
@@ -64,7 +64,6 @@ class Monster:
         Update direction of correction based on monster's sensitivity.
         If direction is 100 and sensitivity is 0.8, it will update the direction x to a random number between 80 < x < 120.
         """
-        # todo review
         self.directions.monster = random.uniform(self.directions.monster * self.monster_sensitivity(),
                                                  self.directions.monster * (1 + (1 - self.monster_sensitivity())))
         self.directions.food = random.uniform(self.directions.food * self.food_sensitivity(),
