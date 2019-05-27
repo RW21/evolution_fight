@@ -53,7 +53,7 @@ for x, i in enumerate(field.grid):
         print(location)
         if x == 2 and y == 2:
             location.existing_creatures.append(field.monsters)
-            field.monster_locations[monster_1] = [2, 0]
+            field.monster_locations[monster_1] = [1, 0]
             field.monster_locations[monster_2] = [2, 1]
             field.monster_locations[monster_3] = [2, 2]
 
@@ -68,14 +68,29 @@ for x, i in enumerate(field.grid):
 
 fig = plt.figure()
 
+x = [location[0] for location in field.monster_locations.values()]
+y = [location[1] for location in field.monster_locations.values()]
+print(x)
+print(y)
+plt.scatter(x, y)
 
-# x = [location[0] for location in field.monster_locations.values()]
-# y = [location[1] for location in field.monster_locations.values()]
-#
-# plt.scatter(x, y)
-#
-# plt.grid()
-# plt.show()
+plt.grid()
+plt.show()
+
+field.turn()
+field.turn()
+
+x = [location[0] for location in field.monster_locations.values()]
+y = [location[1] for location in field.monster_locations.values()]
+print(x)
+print(y)
+
+plt.scatter(x, y)
+
+plt.grid()
+plt.show()
+
+
 
 
 def plot(data):

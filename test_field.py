@@ -66,6 +66,20 @@ class TestField(TestCase):
 
         assert field.food == 0
 
+    def test_monster_move(self):
+        field = Field(4, [monster_1, monster_2, monster_3])
+        field.fill_grid()
+        field.spawn_monsters()
+
+        print(field.monster_locations)
+        previous_locations = field.monster_locations
+
+        field.turn()
+        print(field.monster_locations.values())
+        print(previous_locations)
+
+        assert previous_locations != field.monster_locations
+
     def test_monster_direction(self):
         monster_1.food = 50
 

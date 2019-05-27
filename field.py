@@ -1,6 +1,6 @@
 import math
 from collections import namedtuple
-from random import choice, random
+from random import choice, random, randint
 import numpy as np
 from typing import List
 
@@ -125,8 +125,8 @@ class Field:
         Spawn monsters inside of subfields in the field.
         """
         for monster in self.monsters:
-            random_x = random.randint(self.x)
-            random_y = random.randint(self.y)
+            random_x = randint(0, self.x - 1)
+            random_y = randint(0, self.y - 1)
 
             self.monster_locations[monster] = [random_x, random_y]
 
@@ -180,14 +180,16 @@ class Field:
                 current_subfield.existing_creatures.remove(monster)
 
             else:
-                if monster.priority() == 'food':
+                monster_priority = monster.priority()
+
+                if monster_priority == 'food':
                     # if food is in the current position
                     if current_subfield.food:
                         monster.food = monster.food + 50
                     else:
                         self.move_monster(monster, monster.directions.food)
 
-                if monster.priority() == 'water':
+                if monster_priority == 'water':
                     # if there is enough water in the current subbiome
                     if current_subfield.subbiome.water >= water_threshold:
                         monster.water = monster.water + monster.maximum * current_subfield.subbiome.water
@@ -197,11 +199,13 @@ class Field:
                     else:
                         self.move_monster(monster, monster.directions.water)
 
-                if monster.priority() == 'monster':
+                if monster_priority == 'monster':
                     if len(current_subfield.existing_creatures) > 1:
                         for other_monster in current_subfield.existing_creatures:
                             if other_monster != monster:
                                 monster.fight(other_monster)
+                    else:
+                        self.move_monster(monster, monster.directions.monster)
 
             monster.water = monster.water - monster.maximum * 0.1
             monster.food = monster.food - monster.maximum * 0.1

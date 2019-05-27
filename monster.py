@@ -15,16 +15,18 @@ class Monster:
         self.directions: Direction = Direction()
 
         self.health = 100
-        self.food = 50
-        self.water = 50
+        self.food = 75
+        self.water = 75
 
         self.maximum = 100
+
+        self.name = 'Monster'
 
     def __str__(self):
         return self.genes.phenotype
 
     def __repr__(self):
-        return 'monster'
+        return self.name
 
     def add_direction(self, directions: Direction):
         self.directions = directions
@@ -62,6 +64,7 @@ class Monster:
         Update direction of correction based on monster's sensitivity.
         If direction is 100 and sensitivity is 0.8, it will update the direction x to a random number between 80 < x < 120.
         """
+        # todo review
         self.directions.monster = random.uniform(self.directions.monster * self.monster_sensitivity(),
                                                  self.directions.monster * (1 + (1 - self.monster_sensitivity())))
         self.directions.food = random.uniform(self.directions.food * self.food_sensitivity(),
