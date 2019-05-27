@@ -5,6 +5,12 @@ A monster can mutate and fit the environment of the field.
 # Web
 Planning to create a django app. 
 
+# Visualisation
+Visualisation is done by matplotlib. 
+
+Example images:
+
+
 # Rules
 
 ## Fields
