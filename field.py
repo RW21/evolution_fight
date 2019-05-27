@@ -86,11 +86,6 @@ class Field:
         self.water_locations = []
 
     def fill_grid(self):
-        """
-        Fill grid with subfields associated with subbiomes.
-        The probability of the subbiomes are considered.
-        Also fills in grid with all food available.
-        """
         # get probability of each subbiomes as a list
         probability_of_subbiomes = [biome.probability for biome in biome_choices[self.biome]]
         # get each subbiome name as a list
@@ -119,6 +114,27 @@ class Field:
                 # verify if filled with subfield
                 if type(self.grid[i][j]) != SubField:
                     self.grid[i][j] = SubField(False, selected_subbiome)
+
+    def finalise_grid(self):
+        """
+        Fill grid with subfields associated with subbiomes.
+        The probability of the subbiomes are considered.
+        Also fills in grid with all food available.
+        """
+        self.fill_grid()
+
+        while not self.verify_grid():
+            self.fill_grid()
+
+    def verify_grid(self):
+        water_exist = False
+
+        for i in range(self.x):
+            for j in range(self.y):
+                if self.grid[i][j].subbiome.water >= water_threshold:
+                    water_exist = True
+
+        return water_exist
 
     def spawn_monsters(self):
         """
@@ -211,6 +227,7 @@ class Field:
             monster.food = monster.food - monster.maximum * 0.1
 
     def move_monster(self, monster: Monster, angle):
+        # todo bound errors?
         angle = angle % 360
 
         # north

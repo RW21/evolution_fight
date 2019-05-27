@@ -32,7 +32,7 @@ class TestField(TestCase):
         size = 3
         field = Field(size, [monster_1, monster_2, monster_3])
 
-        field.fill_grid()
+        field.finalise_grid()
         pprint(field.grid)
 
         is_grid_full = True
@@ -49,7 +49,7 @@ class TestField(TestCase):
         """
         field = Field(3, [monster_1, monster_2, monster_3])
 
-        field.fill_grid()
+        field.finalise_grid()
         pprint(field.grid)
 
         for i in field.grid:
@@ -62,13 +62,13 @@ class TestField(TestCase):
     def test_fill_grid_food(self):
         field = Field(3, [monster_1, monster_2, monster_3])
 
-        field.fill_grid()
+        field.finalise_grid()
 
         assert field.food == 0
 
     def test_monster_move(self):
         field = Field(4, [monster_1, monster_2, monster_3])
-        field.fill_grid()
+        field.finalise_grid()
         field.spawn_monsters()
 
         print(field.monster_locations)
@@ -84,7 +84,7 @@ class TestField(TestCase):
         monster_1.food = 50
 
         field = Field(4, [monster_1, monster_2, monster_3])
-        field.fill_grid()
+        field.finalise_grid()
         field.monster_locations.clear()
         field.food_locations.clear()
 
