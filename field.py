@@ -189,13 +189,10 @@ class Field:
             self.update_directions(monster)
             monster.direction_correction()
 
+            # todo list index out of bound
             current_subfield = self.grid[location[0]][location[1]]
 
-            if monster.health <= 0 or monster.water <= 0 or monster.water <= 0:
-                del self.monster_locations[monster]
-                current_subfield.existing_creatures.remove(monster)
-
-            else:
+            if monster.alive:
                 monster_priority = monster.priority()
 
                 if monster_priority == 'food':
@@ -225,6 +222,10 @@ class Field:
 
             monster.water = monster.water - monster.maximum * 0.1
             monster.food = monster.food - monster.maximum * 0.1
+
+            # monster is dead when stats are low
+            if monster.water <= 0 or monster.food <= 0 or monster.health <= 0:
+                monster.alive = False
 
     def move_monster(self, monster: Monster, angle):
         # todo bound errors?

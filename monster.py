@@ -22,6 +22,8 @@ class Monster:
 
         self.name = 'Monster'
 
+        self.alive = True
+
     def __str__(self):
         return self.genes.phenotype
 
@@ -80,13 +82,16 @@ class Monster:
             # gets eaten
             if monster_to_fight.genes.phenotype.size > self.genes.phenotype.size:
                 monster_to_fight.food = monster_to_fight.food + 50
+                self.alive = False
             return 0
+
         # wins fight
         elif monster_to_fight.health <= 0:
             # eat monster
             if monster_to_fight.genes.phenotype.size < self.genes.phenotype.size:
                 self.food = self.food + 50
             return 1
+
         # neither
         else:
             return 2
