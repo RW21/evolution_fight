@@ -190,6 +190,7 @@ class Field:
             monster.direction_correction()
 
             # todo list index out of bound
+            print(location)
             current_subfield = self.grid[location[0]][location[1]]
 
             if monster.alive:
@@ -231,34 +232,39 @@ class Field:
         # todo bound errors?
         angle = angle % 360
 
-        # north
-        if 337.5 >= angle >= 22.5:
-            self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
-        # north east
-        elif 67.5 >= angle >= 22.5:
-            self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
-            self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
-        # east
-        elif 112.5 >= angle >= 67.5:
-            self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
-        # south east
-        elif 157.5 >= angle >= 112.5:
-            self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
-            self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
-        # south
-        elif 202.5 >= angle >= 157.5:
-            self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
-        # south west
-        elif 247.5 >= angle >= 202.5:
-            self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
-            self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
-        # west
-        elif 292.5 >= angle >= 247.5:
-            self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
-        # north west
-        elif 337.5 >= angle >= 292.5:
-            self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
-            self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+        if (self.monster_locations[monster])[0] == (0 or self.x) or (self.monster_locations[monster])[1] == (
+                0 or self.y):
+            pass
+
+        else:
+            # north
+            if 337.5 >= angle >= 22.5:
+                self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+            # north east
+            elif 67.5 >= angle >= 22.5:
+                self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+                self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+            # east
+            elif 112.5 >= angle >= 67.5:
+                self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+            # south east
+            elif 157.5 >= angle >= 112.5:
+                self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+                self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+            # south
+            elif 202.5 >= angle >= 157.5:
+                self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+            # south west
+            elif 247.5 >= angle >= 202.5:
+                self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+                self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+            # west
+            elif 292.5 >= angle >= 247.5:
+                self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+            # north west
+            elif 337.5 >= angle >= 292.5:
+                self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+                self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
 
 
 class SubField:
