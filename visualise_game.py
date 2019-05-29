@@ -49,7 +49,17 @@ def create_monster_scatter_graph(field: Field, plt: plt):
     x = [location[0] for location in field.monster_locations.values()]
     y = [location[1] for location in field.monster_locations.values()]
 
-    plt.scatter(x, y)
+    plt.scatter(x, y, c='black', label="Monster")
+
+    plt.grid()
+
+
+def create_food_scatter_graph(field: Field, plt: plt):
+    x = [location[0] for location in field.food_locations]
+    y = [location[1] for location in field.food_locations]
+
+    plt.scatter(x, y, s=10, c="g", alpha=0.5, marker=r'$\clubsuit$',
+                label="Food")
 
     plt.grid()
 
@@ -57,9 +67,10 @@ def create_monster_scatter_graph(field: Field, plt: plt):
 def multiple_turn_individual_graph(plt: plt, turn: int, field):
     for i in range(turn):
         create_monster_scatter_graph(field, plt)
+        create_food_scatter_graph(field, plt)
         field.turn()
         plt.show()
 
 
 plt.grid()
-multiple_turn_individual_graph(plt, 4, create_experimental_field())
+multiple_turn_individual_graph(plt, 2, create_experimental_field())
