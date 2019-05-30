@@ -8,7 +8,9 @@ Planning to create a django app.
 # Visualisation
 Visualisation is done by matplotlib. 
 
-Example images:
+Example image of a field (as of 30/05/2019):
+![plot of field](example/example_plot_1.png)
+
 
 
 # Rules
