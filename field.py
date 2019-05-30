@@ -7,12 +7,12 @@ from typing import List
 from monster import Monster
 
 SubBiome = namedtuple('SubBiome',
-                      ['name', 'humidity', 'temperature', 'water', 'light', 'mountain', 'tree', 'probability'])
+                      ['name', 'humidity', 'temperature', 'water', 'light', 'mountain', 'tree', 'probability', 'color'])
 
 biome_choices = {'desert':
-                     [SubBiome('oasis', 0.35, 40, 0.9, 0.8, 0.1, 0.4, 0.1),
-                      SubBiome('dunes', 0.1, 40, 0.01, 0.9, 0.75, 0.1, 0.5),
-                      SubBiome('desert', 0.1, 40, 0.01, 0.9, 0.2, 0.1, 0.4)]}
+                     [SubBiome('oasis', 0.35, 40, 0.9, 0.8, 0.1, 0.4, 0.1, '#AED581'),
+                      SubBiome('dunes', 0.1, 40, 0.01, 0.9, 0.75, 0.1, 0.5, '#FF8F00'),
+                      SubBiome('desert', 0.1, 40, 0.01, 0.9, 0.2, 0.1, 0.4, '#FFF9C4')]}
 
 water_threshold = 0.8
 
@@ -189,8 +189,6 @@ class Field:
             self.update_directions(monster)
             monster.direction_correction()
 
-            # todo list index out of bound
-            print(location)
             current_subfield = self.grid[location[0]][location[1]]
 
             if monster.alive:
@@ -229,11 +227,10 @@ class Field:
                 monster.alive = False
 
     def move_monster(self, monster: Monster, angle):
-        # todo bound errors?
         angle = angle % 360
 
-        if (self.monster_locations[monster])[0] == (0 or self.x) or (self.monster_locations[monster])[1] == (
-                0 or self.y):
+        if (self.monster_locations[monster])[0] == (0 or self.x - 1) or (self.monster_locations[monster])[1] == (
+                0 or self.y - 1):
             pass
 
         else:
@@ -269,7 +266,7 @@ class Field:
 
 class SubField:
     def __init__(self, food: bool, subbiome: SubBiome):
-        self.subbiome = subbiome
+        self.subbiome: subbiome = subbiome
         self.existing_creatures = []
         self.food = food
 

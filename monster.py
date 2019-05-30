@@ -8,7 +8,7 @@ from genes import Genes
 
 
 class Monster:
-    def __init__(self, mother=None, father=None):
+    def __init__(self, mother=None, father=None, name=None):
         self.genes: Genes = Genes(mother, father)
         self.body: BaseMonster = self.genes.phenotype
 
@@ -20,7 +20,8 @@ class Monster:
 
         self.maximum = 100
 
-        self.name = 'Monster'
+        if name is None:
+            self.name = str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9))
 
         self.alive = True
 
@@ -60,6 +61,8 @@ class Monster:
         else:
             if self.food >= 75 and self.water >= 75:
                 return 'monster'
+            else:
+                return 'food'
 
     def direction_correction(self):
         """
