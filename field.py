@@ -36,18 +36,23 @@ def get_relative_direction(a, b) -> int:
     :param a:
     :param b:
     """
-    # top left
-    if b[1] >= a[1] and b[0] <= a[0]:
-        return 315
-    # top right
-    elif b[1] >= a[1] and b[0] >= a[0]:
-        return 45
-    # bottom right
-    elif b[1] <= a[1] and b[0] >= a[0]:
-        return 135
-    # bottom left
-    elif b[1] <= a[1] and b[0] <= a[0]:
-        return 225
+
+    try:
+        # top left
+        if b[1] >= a[1] and b[0] <= a[0]:
+            return 315
+        # top right
+        elif b[1] >= a[1] and b[0] >= a[0]:
+            return 45
+        # bottom right
+        elif b[1] <= a[1] and b[0] >= a[0]:
+            return 135
+        # bottom left
+        elif b[1] <= a[1] and b[0] <= a[0]:
+            return 225
+
+    except TypeError:
+        return 0
 
 
 def get_distance_between(a, b) -> float:
@@ -185,6 +190,7 @@ class Field:
         """
         A day in the field.
         """
+
         for monster, location in self.monster_locations.items():
             self.update_directions(monster)
             monster.direction_correction()
@@ -194,30 +200,39 @@ class Field:
             if monster.alive:
                 monster_priority = monster.priority()
 
-                if monster_priority == 'food':
-                    # if food is in the current position
-                    if current_subfield.food:
-                        monster.food = monster.food + 50
-                    else:
-                        self.move_monster(monster, monster.directions.food)
+                try:
+                    if monster_priority == 'food':
+                        # if food is in the current position
+                        if current_subfield.food:
+                            monster.food = monster.food + 50
 
-                if monster_priority == 'water':
-                    # if there is enough water in the current subbiome
-                    if current_subfield.subbiome.water >= water_threshold:
-                        monster.water = monster.water + monster.maximum * current_subfield.subbiome.water
-                    # when monster's water is below 10 it will not move and drink from current subbiome
-                    elif monster.water <= 10:
-                        monster.water = monster.water + monster.maximum * current_subfield.subbiome.water
-                    else:
-                        self.move_monster(monster, monster.directions.water)
+                            # delete food from subfield
+                            current_subfield.food = False
 
-                if monster_priority == 'monster':
-                    if len(current_subfield.existing_creatures) > 1:
-                        for other_monster in current_subfield.existing_creatures:
-                            if other_monster != monster:
-                                monster.fight(other_monster)
-                    else:
-                        self.move_monster(monster, monster.directions.monster)
+                        else:
+                            self.move_monster(monster, monster.directions.food)
+
+                    if monster_priority == 'water':
+                        # if there is enough water in the current subbiome
+                        if current_subfield.subbiome.water >= water_threshold:
+                            monster.water = monster.water + monster.maximum * current_subfield.subbiome.water
+                        # when monster's water is below 10 it will not move and drink from current subbiome
+                        elif monster.water <= 10:
+                            monster.water = monster.water + monster.maximum * current_subfield.subbiome.water
+                        else:
+                            self.move_monster(monster, monster.directions.water)
+
+                    if monster_priority == 'monster':
+                        if len(current_subfield.existing_creatures) > 1:
+                            for other_monster in current_subfield.existing_creatures:
+                                if other_monster != monster:
+                                    monster.fight(other_monster)
+                        else:
+                            self.move_monster(monster, monster.directions.monster)
+
+                # reset monster position when it tries to go out of bounds
+                except IndexError:
+                    self.monster_locations[monster] = [self.x // 2, self.y // 2]
 
             monster.water = monster.water - monster.maximum * 0.1
             monster.food = monster.food - monster.maximum * 0.1
@@ -229,39 +244,39 @@ class Field:
     def move_monster(self, monster: Monster, angle):
         angle = angle % 360
 
-        if (self.monster_locations[monster])[0] == (0 or self.x - 1) or (self.monster_locations[monster])[1] == (
-                0 or self.y - 1):
-            pass
+        # if (self.monster_locations[monster])[0] == (0 or self.x - 1) or (self.monster_locations[monster])[1] == (
+        #         0 or self.y - 1):
+        #     pass
 
-        else:
-            # north
-            if angle >= 337.5 or 0 >= angle >= 22.5:
-                self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
-            # north east
-            elif 67.5 >= angle >= 22.5:
-                self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
-                self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
-            # east
-            elif 112.5 >= angle >= 67.5:
-                self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
-            # south east
-            elif 157.5 >= angle >= 112.5:
-                self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
-                self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
-            # south
-            elif 202.5 >= angle >= 157.5:
-                self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
-            # south west
-            elif 247.5 >= angle >= 202.5:
-                self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
-                self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
-            # west
-            elif 292.5 >= angle >= 247.5:
-                self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
-            # north west
-            elif 337.5 >= angle >= 292.5:
-                self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
-                self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+        # else:
+        # north
+        if angle >= 337.5 or 0 >= angle >= 22.5:
+            self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+        # north east
+        elif 67.5 >= angle >= 22.5:
+            self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+            self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+        # east
+        elif 112.5 >= angle >= 67.5:
+            self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+        # south east
+        elif 157.5 >= angle >= 112.5:
+            self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+            self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+        # south
+        elif 202.5 >= angle >= 157.5:
+            self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+        # south west
+        elif 247.5 >= angle >= 202.5:
+            self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+            self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+        # west
+        elif 292.5 >= angle >= 247.5:
+            self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+        # north west
+        elif 337.5 >= angle >= 292.5:
+            self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+            self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
 
 
 class SubField:
