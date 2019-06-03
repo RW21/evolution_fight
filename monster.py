@@ -47,7 +47,7 @@ class Monster:
     def strength(self):
         return (self.genes.phenotype.size / 100 + self.genes.phenotype.speed / 100) / 2
 
-    def priority(self) -> str:
+    def get_priority(self) -> str:
         """
         Chooses what to chase.
         Doesn't chase other monsters when weak.

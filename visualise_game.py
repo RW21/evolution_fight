@@ -51,9 +51,10 @@ def create_monster_scatter_graph(field: Field):
     x = [location[0] for location in field.monster_locations.values()]
     y = [location[1] for location in field.monster_locations.values()]
 
-    names = [monster.name + ' p:' + str(monster.priority()) + '\n' + str(monster.directions) + '\n' + str(monster.alive)
-             for
-             monster in field.monster_locations.keys()]
+    names = [
+        monster.name + ' p:' + str(monster.get_priority()) + '\n' + str(monster.directions) + '\n' + str(monster.alive)
+        for
+        monster in field.monster_locations.keys()]
 
     for i, name in enumerate(names):
         plt.annotate(name, (x[i], y[i]))

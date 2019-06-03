@@ -195,19 +195,26 @@ class Field:
             self.update_directions(monster)
             monster.direction_correction()
 
-            current_subfield = self.grid[location[0]][location[1]]
+            try:
+                current_subfield = self.grid[location[0]][location[1]]
+            except IndexError:
+                current_subfield = self.grid[self.x // 2][self.y // 2]
 
             if monster.alive:
-                monster_priority = monster.priority()
+                monster_priority = monster.get_priority()
 
                 try:
                     if monster_priority == 'food':
+                        print('food')
+                        print(current_subfield)
                         # if food is in the current position
-                        if current_subfield.food:
+                        if current_subfield.food or location in self.food_locations:
                             monster.food = monster.food + 50
+                            print('eat')
 
                             # delete food from subfield
                             current_subfield.food = False
+                            self.food_locations.remove(location)
 
                         else:
                             self.move_monster(monster, monster.directions.food)
