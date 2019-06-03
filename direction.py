@@ -18,6 +18,3 @@ class Direction:
         else:
             return ''
 
-    def get_int(self, parameter):
-        if parameter == 'water' and not None:
-            return
