@@ -235,7 +235,7 @@ class Field:
 
         else:
             # north
-            if 337.5 >= angle >= 22.5:
+            if angle >= 337.5 or 0 >= angle >= 22.5:
                 self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
             # north east
             elif 67.5 >= angle >= 22.5:

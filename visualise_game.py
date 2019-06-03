@@ -99,16 +99,23 @@ def create_graph(field: Field):
 
 
 def multiple_turn_individual_graph(plt: plt, turn: int, field):
-    for i in range(turn):
+    for index, turn in enumerate(range(turn)):
         create_biome_color_scatter_graph(field)
         create_monster_scatter_graph(field)
         create_food_scatter_graph(field)
         create_water_scatter_graph(field)
-        field.turn()
 
-        # axes = plt.gca()
-        # axes.set_xlim([0, field.x])
-        # axes.set_ylim([0, field.y])
+        print('turn: ' + str(index))
+        for monster in field.monsters:
+            print('\n')
+            print('monster: ' + monster.name)
+            print('water: ' + str(monster.water))
+            print('food: ' + str(monster.food))
+            print('health: ' + str(monster.health))
+
+        print('\n')
+
+        field.turn()
 
         first_legend = create_color_legends(field)
         plt.gca().add_artist(first_legend)
@@ -126,7 +133,6 @@ def find_all_biome_color(field: Field):
             if j.subbiome.name not in colors.keys():
                 colors[j.subbiome.name] = j.subbiome.color
 
-    print(colors)
     return colors
 
 
