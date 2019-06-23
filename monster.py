@@ -64,6 +64,16 @@ class Monster:
             else:
                 return 'food'
 
+    def get_available_priority(self, excluded_priorities) -> str:
+        if len(excluded_priorities) == 0:
+            return self.get_priority()
+
+        if 'food' in excluded_priorities:
+            if self.health <= 75:
+                return 'water'
+            else:
+                return 'monster'
+
     def direction_correction(self):
         """
         Update direction of correction based on monster's sensitivity.

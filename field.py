@@ -201,7 +201,11 @@ class Field:
                 current_subfield = self.grid[self.x // 2][self.y // 2]
 
             if monster.alive:
-                monster_priority = monster.get_priority()
+                excluded_priorities = []
+                if self.food <= 0:
+                    excluded_priorities.append('food')
+
+                monster_priority = monster.get_available_priority(excluded_priorities)
 
                 try:
                     if monster_priority == 'food':
@@ -210,11 +214,11 @@ class Field:
                         # if food is in the current position
                         if current_subfield.food or location in self.food_locations:
                             monster.food = monster.food + 50
-                            print('eat')
 
                             # delete food from subfield
                             current_subfield.food = False
                             self.food_locations.remove(location)
+                            self.food = self.food - 1
 
                         else:
                             self.move_monster(monster, monster.directions.food)
