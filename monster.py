@@ -34,17 +34,17 @@ class Monster:
     def add_direction(self, directions: Direction):
         self.directions = directions
 
-    def water_sensitivity(self):
+    def get_water_sensitivity(self):
         return self.genes.phenotype.vision / 100
 
-    def food_sensitivity(self):
+    def get_food_sensitivity(self):
         return (self.genes.phenotype.vision / 100 + self.genes.phenotype.smell / 100) / 2
 
-    def monster_sensitivity(self):
+    def get_monster_sensitivity(self):
         return (self.genes.phenotype.vision / 100 + self.genes.phenotype.smell / 100 +
                 self.genes.phenotype.hearing / 100) / 3
 
-    def strength(self):
+    def get_strength(self):
         return (self.genes.phenotype.size / 100 + self.genes.phenotype.speed / 100) / 2
 
     def get_priority(self) -> str:
@@ -79,16 +79,16 @@ class Monster:
         Update direction of correction based on monster's sensitivity.
         If direction is 100 and sensitivity is 0.8, it will update the direction x to a random number between 80 < x < 120.
         """
-        self.directions.monster = random.uniform(self.directions.monster * self.monster_sensitivity(),
-                                                 self.directions.monster * (1 + (1 - self.monster_sensitivity())))
-        self.directions.food = random.uniform(self.directions.food * self.food_sensitivity(),
-                                              self.directions.food * (1 + (1 - self.food_sensitivity())))
-        self.directions.water = random.uniform(self.directions.water * self.water_sensitivity(),
-                                               self.directions.water * (1 + (1 - self.water_sensitivity())))
+        self.directions.monster = random.uniform(self.directions.monster * self.get_monster_sensitivity(),
+                                                 self.directions.monster * (1 + (1 - self.get_monster_sensitivity())))
+        self.directions.food = random.uniform(self.directions.food * self.get_food_sensitivity(),
+                                              self.directions.food * (1 + (1 - self.get_food_sensitivity())))
+        self.directions.water = random.uniform(self.directions.water * self.get_water_sensitivity(),
+                                               self.directions.water * (1 + (1 - self.get_water_sensitivity())))
 
     def fight(self, monster_to_fight: Monster) -> int:
-        monster_to_fight.health = monster_to_fight.health - self.maximum * self.strength()
-        self.health = self.health - monster_to_fight.maximum * monster_to_fight.strength()
+        monster_to_fight.health = monster_to_fight.health - self.maximum * self.get_strength()
+        self.health = self.health - monster_to_fight.maximum * monster_to_fight.get_strength()
 
         # dies from fight
         if self.health <= 0:

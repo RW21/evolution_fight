@@ -255,11 +255,7 @@ class Field:
     def move_monster(self, monster: Monster, angle):
         angle = angle % 360
 
-        # if (self.monster_locations[monster])[0] == (0 or self.x - 1) or (self.monster_locations[monster])[1] == (
-        #         0 or self.y - 1):
-        #     pass
 
-        # else:
         # north
         if angle >= 337.5 or 0 >= angle >= 22.5:
             self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
