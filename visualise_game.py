@@ -22,19 +22,19 @@ def create_experimental_field() -> Field:
     monster_3 = Monster()
 
     monster_1.genes.phenotype.vision = 100
-    monster_1.genes.phenotype.hearing = 80
+    monster_1.genes.phenotype.hearing = 100
     monster_1.genes.phenotype.speed = 100
     monster_1.genes.phenotype.smell = 80
     monster_1.genes.phenotype.size = 100
 
     monster_2.genes.phenotype.vision = 100
-    monster_2.genes.phenotype.hearing = 80
+    monster_2.genes.phenotype.hearing = 100
     monster_2.genes.phenotype.speed = 100
     monster_2.genes.phenotype.smell = 80
     monster_2.genes.phenotype.size = 100
 
     monster_3.genes.phenotype.vision = 100
-    monster_3.genes.phenotype.hearing = 80
+    monster_3.genes.phenotype.hearing = 100
     monster_3.genes.phenotype.speed = 100
     monster_3.genes.phenotype.smell = 80
     monster_3.genes.phenotype.size = 100
@@ -52,7 +52,7 @@ def create_monster_scatter_graph(field: Field):
     y = [location[1] for location in field.monster_locations.values()]
 
     names = [
-        monster.name + ' p:' + str(monster.get_priority()) + '\n' + str(monster.directions) + '\n' + str(monster.alive)
+        monster.name + str(monster.directions) + '\n' + str(monster.alive)
         for
         monster in field.monster_locations.keys()]
 
@@ -109,12 +109,14 @@ def multiple_turn_individual_graph(plt: plt, turn: int, field):
         print('turn: ' + str(index))
         for monster in field.monsters:
             print('\n')
-            print('monster: ' + monster.name)
-            print('water: ' + str(monster.water))
-            print('food: ' + str(monster.food))
+            print('monster name: ' + monster.name)
+            print('water: ' + str(monster.water) + ' ' + str(monster.directions.water))
+            print('food: ' + str(monster.food) + ' ' + str(monster.directions.food))
             print('health: ' + str(monster.health))
 
+
         print('\n')
+        print(field.monster_locations)
 
         field.turn()
 

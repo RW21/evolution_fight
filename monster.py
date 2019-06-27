@@ -15,8 +15,8 @@ class Monster:
         self.directions: Direction = Direction()
 
         self.health = 100
-        self.food = 75
-        self.water = 75
+        self.food = 80
+        self.water = 80
 
         self.maximum = 100
 
@@ -53,7 +53,7 @@ class Monster:
         Doesn't chase other monsters when weak.
         :return:
         """
-        if self.health <= 75:
+        if self.health >= 75 and self.food >= 75 and self.water >= 75:
             if min(self.food, self.water) == self.food:
                 return 'food'
             else:

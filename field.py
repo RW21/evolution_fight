@@ -206,10 +206,11 @@ class Field:
                     excluded_priorities.append('food')
 
                 monster_priority = monster.get_available_priority(excluded_priorities)
+                print(monster_priority)
 
                 try:
                     if monster_priority == 'food':
-                        print('food')
+                        print('priority: food')
                         print(current_subfield)
                         # if food is in the current position
                         if current_subfield.food or location in self.food_locations:
