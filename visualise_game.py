@@ -113,6 +113,7 @@ def multiple_turn_individual_graph(plt: plt, turn: int, field):
             print('water: ' + str(monster.water) + ' ' + str(monster.directions.water))
             print('food: ' + str(monster.food) + ' ' + str(monster.directions.food))
             print('health: ' + str(monster.health))
+            print('monster location' + str(monster.directions.monster))
 
 
         print('\n')

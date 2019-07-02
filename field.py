@@ -28,28 +28,16 @@ def probability(prob):
         return False
 
 
-def get_relative_direction(a, b) -> int:
+def get_relative_direction(a, b) -> float:
     """
-    Return relative direction in degrees from a to be.
+    Return relative direction in degrees from a to b.
     Only gives a rough estimate.
-    Todo get exact angle.
     :param a:
     :param b:
     """
 
     try:
-        # top left
-        if b[1] >= a[1] and b[0] <= a[0]:
-            return 315
-        # top right
-        elif b[1] >= a[1] and b[0] >= a[0]:
-            return 45
-        # bottom right
-        elif b[1] <= a[1] and b[0] >= a[0]:
-            return 135
-        # bottom left
-        elif b[1] <= a[1] and b[0] <= a[0]:
-            return 225
+        return math.degrees(math.atan2(b[0] - a[0], b[1] - a[1]))
 
     except TypeError:
         return 0
@@ -255,7 +243,6 @@ class Field:
 
     def move_monster(self, monster: Monster, angle):
         angle = angle % 360
-
 
         # north
         if angle >= 337.5 or 0 >= angle >= 22.5:
