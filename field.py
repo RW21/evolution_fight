@@ -210,7 +210,7 @@ class Field:
                             self.food = self.food - 1
 
                         else:
-                            self.move_monster(monster, monster.directions.food)
+                            self.move_monster(monster, monster.directions.food, location)
 
                     if monster_priority == 'water':
                         # if there is enough water in the current subbiome
@@ -220,15 +220,16 @@ class Field:
                         elif monster.water <= 10:
                             monster.water = monster.water + monster.maximum * current_subfield.subbiome.water
                         else:
-                            self.move_monster(monster, monster.directions.water)
+                            self.move_monster(monster, monster.directions.water, location)
 
                     if monster_priority == 'monster':
                         if len(current_subfield.existing_creatures) > 1:
                             for other_monster in current_subfield.existing_creatures:
                                 if other_monster != monster:
                                     monster.fight(other_monster)
+                                    print(monster + 'fights' + other_monster)
                         else:
-                            self.move_monster(monster, monster.directions.monster)
+                            self.move_monster(monster, monster.directions.monster, location)
 
                 # reset monster position when it tries to go out of bounds
                 except IndexError:
@@ -241,37 +242,55 @@ class Field:
             if monster.water <= 0 or monster.food <= 0 or monster.health <= 0:
                 monster.alive = False
 
-    def move_monster(self, monster: Monster, angle):
+    def move_monster(self, monster: Monster, angle, current_location):
         angle = angle % 360
+
+        self.grid[current_location[0]][current_location[1]].existing_creatures.remove(monster)
 
         # north
         if angle >= 337.5 or 0 >= angle >= 22.5:
             self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
+            self.grid[current_location[0]][current_location[1] + 1].existing_creatures.append(monster)
+
         # north east
         elif 67.5 >= angle >= 22.5:
             self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
             self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+            self.grid[current_location[0] + 1][current_location[1] + 1].existing_creatures.append(monster)
+
         # east
         elif 112.5 >= angle >= 67.5:
             self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
+            self.grid[current_location[0] + 1][current_location[1]].existing_creatures.append(monster)
+
+
         # south east
         elif 157.5 >= angle >= 112.5:
             self.monster_locations[monster][0] = self.monster_locations[monster][0] + 1
             self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+            self.grid[current_location[0] + 1][current_location[1] - 1].existing_creatures.append(monster)
+
         # south
         elif 202.5 >= angle >= 157.5:
             self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
+            self.grid[current_location[0]][current_location[1] - 1].existing_creatures.append(monster)
+
         # south west
         elif 247.5 >= angle >= 202.5:
             self.monster_locations[monster][1] = self.monster_locations[monster][1] - 1
             self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+            self.grid[current_location[0] - 1][current_location[1] - 1].existing_creatures.append(monster)
+
         # west
         elif 292.5 >= angle >= 247.5:
             self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+            self.grid[current_location[0] - 1][current_location[1]].existing_creatures.append(monster)
+
         # north west
         elif 337.5 >= angle >= 292.5:
             self.monster_locations[monster][1] = self.monster_locations[monster][1] + 1
             self.monster_locations[monster][0] = self.monster_locations[monster][0] - 1
+            self.grid[current_location[0] - 1][current_location[1] + 1].existing_creatures.append(monster)
 
 
 class SubField:
