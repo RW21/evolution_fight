@@ -48,13 +48,17 @@ def create_experimental_field() -> Field:
 
 
 def create_monster_scatter_graph(field: Field):
-    x = [location[0] for location in field.monster_locations.values()]
-    y = [location[1] for location in field.monster_locations.values()]
+    x = []
+    y = []
+    for monster_, location in field.monster_locations.items():
+        if monster_.alive:
+            x.append(location[0])
+            y.append(location[1])
 
     names = [
         monster.name + str(monster.directions) + '\n' + str(monster.alive)
         for
-        monster in field.monster_locations.keys()]
+        monster in field.monster_locations.keys() if monster.alive]
 
     for i, name in enumerate(names):
         plt.annotate(name, (x[i], y[i]))

@@ -21,6 +21,7 @@ class Monster:
         self.maximum = 100
 
         if name is None:
+            # generate string consisting of three numbers (can be 003)
             self.name = str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9))
 
         self.alive = True

@@ -120,6 +120,7 @@ class Field:
             self.fill_grid()
 
     def verify_grid(self):
+        # todo not effiecient verification. fix.
         water_exist = False
 
         for i in range(self.x):
@@ -226,8 +227,15 @@ class Field:
                         if len(current_subfield.existing_creatures) > 1:
                             for other_monster in current_subfield.existing_creatures:
                                 if other_monster != monster:
-                                    monster.fight(other_monster)
-                                    print(monster + 'fights' + other_monster)
+                                    fight_result = monster.fight(other_monster)
+
+                                    # try:
+                                    #     if fight_result == 0:
+                                    #         del self.monster_locations[monster]
+                                    #     if fight_result == 1:
+                                    #         del self.monster_locations[other_monster]
+                                    # except KeyError:
+                                    #     print('no monster?')
                         else:
                             self.move_monster(monster, monster.directions.monster, location)
 
@@ -245,7 +253,10 @@ class Field:
     def move_monster(self, monster: Monster, angle, current_location):
         angle = angle % 360
 
-        self.grid[current_location[0]][current_location[1]].existing_creatures.remove(monster)
+        try:
+            self.grid[current_location[0]][current_location[1]].existing_creatures.remove(monster)
+        except ValueError:
+            print('no monsters')
 
         # north
         if angle >= 337.5 or 0 >= angle >= 22.5:
