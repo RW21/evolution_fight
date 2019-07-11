@@ -226,16 +226,13 @@ class Field:
                     if monster_priority == 'monster':
                         if len(current_subfield.existing_creatures) > 1:
                             for other_monster in current_subfield.existing_creatures:
+                                other_monster: Monster
                                 if other_monster != monster:
-                                    fight_result = monster.fight(other_monster)
+                                    # if different gender breed
+                                    if other_monster.gender != monster.gender:
+                                        monster.breed(other_monster)
+                                    monster.fight(other_monster)
 
-                                    # try:
-                                    #     if fight_result == 0:
-                                    #         del self.monster_locations[monster]
-                                    #     if fight_result == 1:
-                                    #         del self.monster_locations[other_monster]
-                                    # except KeyError:
-                                    #     print('no monster?')
                         else:
                             self.move_monster(monster, monster.directions.monster, location)
 

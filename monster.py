@@ -12,6 +12,12 @@ class Monster:
         self.genes: Genes = Genes(mother, father)
         self.body: BaseMonster = self.genes.phenotype
 
+        # don't use male, female for gender
+        if random.randint(0, 1) == 1:
+            self.gender = True
+        else:
+            self.gender = False
+
         self.directions: Direction = Direction()
 
         self.health = 100
@@ -109,3 +115,5 @@ class Monster:
         # neither
         else:
             return 2
+
+    # def breed(self, partner):

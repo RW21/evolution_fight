@@ -13,7 +13,7 @@ class Genes:
 
     def heredity(self):
         """
-        Sets random genes for heredity
+        Sets random genes for heredity from mother and father.
         """
         for trait in self.phenotype.__dict__.keys():
             if randint(0, 1):
@@ -24,4 +24,5 @@ class Genes:
                 setattr(self.phenotype, trait, father_trait_value)
 
     def mutation(self, part, point):
+        # todo mutation should happen when monster is born
         self.phenotype.mutate(part, point)
