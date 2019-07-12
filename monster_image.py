@@ -28,9 +28,8 @@ class MonsterImage:
         self.leg = np.random.randint(0, high=2, size=(60, 40))
 
     def create_entire_array(self):
-        # todo fix sizes
 
-        monster_array = np.zeros((139, 119))
+        monster_array = np.zeros((140, 120))
 
         # left eye
         monster_array[40:65, 20:45] = self.eye
@@ -41,13 +40,13 @@ class MonsterImage:
         # left arm
         monster_array[0:40, 30:70] = self.left_arm
         # right arm
-        monster_array[99:140, 30:70] = np.flip(self.left_arm, 1)
+        monster_array[100:140, 30:70] = np.flip(self.left_arm, 1)
 
         # mouth
         monster_array[45:95, 65:75] = self.mouth
 
         # leg
-        monster_array[40:100, 79:120] = self.leg
+        monster_array[40:100, 80:120] = self.leg
 
         return monster_array
 

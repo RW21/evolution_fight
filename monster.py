@@ -126,5 +126,5 @@ class Monster:
 
         return child
 
-    def create_random_monster(self):
+    def set_random_monster(self):
         self.genes = Genes(None, None).set_random_genes()

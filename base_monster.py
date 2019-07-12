@@ -1,5 +1,4 @@
 from collections import namedtuple
-from pydoc import locate
 from random import randint
 
 Color = namedtuple('Color', ['R', 'G', 'B'])
