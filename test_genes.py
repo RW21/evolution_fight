@@ -16,6 +16,6 @@ father.genes.phenotype = spec_b
 
 class TestGenes(TestCase):
     def test_heredity(self):
-        child = Monster(mother=mother, father=father)
+        child = Monster(x=mother, y=father)
         assert child.genes.phenotype.speed == child.genes.mother.genes.phenotype.speed or \
                child.genes.phenotype.speed == child.genes.father.genes.phenotype.speed

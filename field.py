@@ -230,7 +230,14 @@ class Field:
                                 if other_monster != monster:
                                     # if different gender breed
                                     if other_monster.gender != monster.gender:
-                                        monster.breed(other_monster)
+                                        child = monster.breed(other_monster)
+                                        self.monsters.append(child)
+                                        self.monster_locations[child] = location
+
+                                        # kill monsters when bred
+                                        other_monster.alive = False
+                                        monster.alive = False
+
                                     monster.fight(other_monster)
 
                         else:

@@ -1,6 +1,8 @@
 from monster import BaseMonster
 from random import randint, choice
 
+from monster_image import MonsterImage
+
 
 class Genes:
     def __init__(self, female, male):
@@ -10,6 +12,8 @@ class Genes:
             self.mother = female
             self.heredity()
             self.genotype: dict = {self.mother: self.mother.genes.phenotype, self.father: self.father.genes.phenotype}
+
+        self.image = MonsterImage()
 
     def heredity(self):
         """
@@ -26,3 +30,14 @@ class Genes:
     def mutation(self, part, point):
         # todo mutation should happen when monster is born
         self.phenotype.mutate(part, point)
+
+    def set_random_genes(self):
+        self.phenotype.gender = lambda x: False if randint(0, 1) else True
+        self.phenotype.skin = randint(0, 100)
+        self.phenotype.size = randint(0, 100)
+        self.phenotype.speed = randint(0, 100)
+        self.phenotype.vision = randint(0, 100)
+        self.phenotype.hearing = randint(0, 100)
+        self.phenotype.smell = randint(0, 100)
+
+        self.image.set_random_parts()

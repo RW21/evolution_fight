@@ -8,15 +8,17 @@ from genes import Genes
 
 
 class Monster:
-    def __init__(self, mother=None, father=None, name=None):
-        self.genes: Genes = Genes(mother, father)
+    def __init__(self, x=None, y=None, name=None):
+        self.genes: Genes = Genes(x, y)
         self.body: BaseMonster = self.genes.phenotype
 
         # don't use male, female for gender
-        if random.randint(0, 1) == 1:
-            self.gender = True
-        else:
-            self.gender = False
+        # if random.randint(0, 1) == 1:
+        #     self.gender = True
+        # else:
+        #     self.gender = False
+
+        self.gender = self.genes.phenotype.gender
 
         self.directions: Direction = Direction()
 
@@ -116,4 +118,13 @@ class Monster:
         else:
             return 2
 
-    # def breed(self, partner):
+    def breed(self, partner):
+        if self.gender:
+            child = Monster(x=self, y=partner)
+        else:
+            child = Monster(x=partner, y=self)
+
+        return child
+
+    def create_random_monster(self):
+        self.genes = Genes(None, None).set_random_genes()

@@ -28,6 +28,8 @@ class MonsterImage:
         self.leg = np.random.randint(0, high=2, size=(60, 40))
 
     def create_entire_array(self):
+        # todo fix sizes
+
         monster_array = np.zeros((139, 119))
 
         # left eye
