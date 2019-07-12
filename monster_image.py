@@ -22,10 +22,10 @@ class MonsterImage:
             return False
 
     def set_random_parts(self):
-        self.eye = np.random.random((25, 25))
-        self.mouth = np.random.random((50, 10))
-        self.left_arm = np.random.random((40, 40))
-        self.leg = np.random.random((60, 40))
+        self.eye = np.random.randint(0, high=2, size=(25, 25))
+        self.mouth = np.random.randint(0, high=2, size=(50, 10))
+        self.left_arm = np.random.randint(0, high=2, size=(40, 40))
+        self.leg = np.random.randint(0, high=2, size=(60, 40))
 
     def create_entire_array(self):
         monster_array = np.zeros((139, 119))
@@ -50,10 +50,11 @@ class MonsterImage:
         return monster_array
 
     def generate_image(self) -> Image:
-        """ Returns PIL image. Make sure to use TIFF format."""
+        """ Returns PIL image. Make sure to use TIFF format when saving."""
 
         image = Image.fromarray(self.create_entire_array())
-        image.convert('L')
+        image = image.convert('L')
+        image = image.point(lambda x: 0 if x == 0 else 255, '1')
 
         image = image.rotate(-90)
 
@@ -62,9 +63,3 @@ class MonsterImage:
 
 class InvalidSizeException(Exception):
     """Some of the sizes provided are not of correct dimensions"""
-
-
-test = MonsterImage()
-test.set_random_parts()
-
-test.generate_image().save('test.tiff')
