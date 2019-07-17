@@ -119,12 +119,11 @@ class Monster:
             return 2
 
     def breed(self, partner):
+        # todo maybe order doesn't matter, check
         if self.gender:
-            child = Monster(x=self, y=partner)
+            return Monster(x=self, y=partner)
         else:
-            child = Monster(x=partner, y=self)
-
-        return child
+            return Monster(x=partner, y=self)
 
     def set_random_monster(self):
         self.genes = Genes(None, None).set_random_genes()

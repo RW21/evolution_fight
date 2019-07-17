@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+import random
+
 import numpy as np
 from PIL import Image
 
@@ -27,7 +31,7 @@ class MonsterImage:
         self.left_arm = np.random.randint(0, high=2, size=(40, 40))
         self.leg = np.random.randint(0, high=2, size=(60, 40))
 
-    def create_entire_array(self):
+    def generate_entire_array(self):
 
         monster_array = np.zeros((140, 120))
 
@@ -53,13 +57,23 @@ class MonsterImage:
     def generate_image(self) -> Image:
         """ Returns PIL image. Make sure to use TIFF format when saving."""
 
-        image = Image.fromarray(self.create_entire_array())
+        image = Image.fromarray(self.generate_entire_array())
         image = image.convert('L')
         image = image.point(lambda x: 0 if x == 0 else 255, '1')
 
         image = image.rotate(-90)
 
         return image
+
+    def generate_combined_parts(self, monster: MonsterImage):
+        dict_of_arrays = {}
+        for i in dir(monster):
+            if not i.startswith('__') and type(i) == 'numpy.ndarray':
+                if random.randint(0, 1):
+                    dict_of_arrays[i] = (self, i)
+                else:
+                    dict_of_arrays[i] = (monster, i)
+        return dict_of_arrays
 
 
 class InvalidSizeException(Exception):
