@@ -19,6 +19,7 @@ class Genes:
         """
         Sets random genes for heredity from mother and father.
         """
+        # todo why not dir()?
         for trait in self.phenotype.__dict__.keys():
             if randint(0, 1):
                 mother_trait_value = getattr(self.mother.genes.phenotype, trait)
