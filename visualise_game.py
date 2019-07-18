@@ -17,31 +17,11 @@ from monster import Monster
 def create_experimental_field() -> Field:
     # setup field
 
-    monster_1 = Monster()
-    monster_2 = Monster()
-    monster_3 = Monster()
+    monster_list = [Monster() for i in range(10)]
+    for i in monster_list:
+        i.genes.set_random_genes()
 
-    monster_1.genes.phenotype.vision = 100
-    monster_1.genes.phenotype.hearing = 100
-    monster_1.genes.phenotype.speed = 100
-    monster_1.genes.phenotype.smell = 80
-    monster_1.genes.phenotype.size = 100
-
-    monster_2.genes.phenotype.vision = 100
-    monster_2.genes.phenotype.hearing = 100
-    monster_2.genes.phenotype.speed = 100
-    monster_2.genes.phenotype.smell = 80
-    monster_2.genes.phenotype.size = 100
-
-    monster_3.genes.phenotype.vision = 100
-    monster_3.genes.phenotype.hearing = 100
-    monster_3.genes.phenotype.speed = 100
-    monster_3.genes.phenotype.smell = 80
-    monster_3.genes.phenotype.size = 100
-
-    monster_1.food = 50
-
-    field = Field(6, [monster_1, monster_2, monster_3])
+    field = Field(15, monster_list)
     field.finalise_grid()
     field.spawn_monsters()
     return field
@@ -112,13 +92,13 @@ def multiple_turn_individual_graph(plt: plt, turn: int, field):
 
         print('turn: ' + str(index))
         for monster in field.monsters:
-            print('\n')
-            print('monster name: ' + monster.name)
-            print('water: ' + str(monster.water) + ' ' + str(monster.directions.water))
-            print('food: ' + str(monster.food) + ' ' + str(monster.directions.food))
-            print('health: ' + str(monster.health))
-            print('monster location' + str(monster.directions.monster))
-
+            if monster.alive:
+                print('\n')
+                print('monster name: ' + monster.name)
+                print('water: ' + str(monster.water) + ' ' + str(monster.directions.water))
+                print('food: ' + str(monster.food) + ' ' + str(monster.directions.food))
+                print('health: ' + str(monster.health))
+                print('monster location' + str(monster.directions.monster))
 
         print('\n')
         print(field.monster_locations)
