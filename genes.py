@@ -33,7 +33,10 @@ class Genes:
         self.phenotype.mutate(part, point)
 
     def set_random_genes(self):
-        self.phenotype.gender = lambda x: False if randint(0, 1) else True
+        def gender():
+            return False if randint(0, 1) else True
+
+        self.phenotype.gender = gender()
         self.phenotype.skin = randint(0, 100)
         self.phenotype.size = randint(0, 100)
         self.phenotype.speed = randint(0, 100)

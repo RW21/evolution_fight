@@ -8,7 +8,7 @@ Value = namedtuple('Value', ['value', 'min', 'max'])
 
 class BaseMonster:
     def __init__(self):
-        self.gender = bool
+        self.gender: bool = None
         self.gender_probability = Probability(None)
         self.death_probability = Probability(None)
         self.skin = 0
