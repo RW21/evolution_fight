@@ -180,6 +180,8 @@ class Field:
         A day in the field.
         """
 
+        child_dict = {}
+
         for monster, location in self.monster_locations.items():
             self.update_directions(monster)
             monster.direction_correction()
@@ -195,12 +197,9 @@ class Field:
                     excluded_priorities.append('food')
 
                 monster_priority = monster.get_available_priority(excluded_priorities)
-                print(monster_priority)
 
                 try:
                     if monster_priority == 'food':
-                        print('priority: food')
-                        print(current_subfield)
                         # if food is in the current position
                         if current_subfield.food or location in self.food_locations:
                             monster.food = monster.food + 50
@@ -232,7 +231,10 @@ class Field:
                                     if other_monster.gender != monster.gender:
                                         child = monster.breed(other_monster)
                                         self.monsters.append(child)
-                                        self.monster_locations[child] = location
+
+                                        # instead of adding child to field add to dict
+                                        child_dict[(monster, other_monster)] = child
+                                        # self.monster_locations[child] = location
 
                                         # kill monsters when bred
                                         other_monster.alive = False
@@ -253,6 +255,8 @@ class Field:
             # monster is dead when stats are low
             if monster.water <= 0 or monster.food <= 0 or monster.health <= 0:
                 monster.alive = False
+
+            return child_dict
 
     def move_monster(self, monster: Monster, angle, current_location):
         angle = angle % 360

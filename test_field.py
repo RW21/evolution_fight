@@ -24,7 +24,7 @@ monster_3.genes.phenotype.speed = 100
 monster_3.genes.phenotype.smell = 80
 monster_3.genes.phenotype.size = 100
 
-Oasis = SubBiome('oasis', 0.35, 40, 0.9, 0.8, 0.1, 0.4, 0.1)
+Oasis = SubBiome('oasis', 0.35, 40, 0.9, 0.8, 0.1, 0.4, 0.1, '#AED581')
 
 
 class TestField(TestCase):
@@ -116,3 +116,21 @@ class TestField(TestCase):
             field.turn()
 
         assert field.monster_locations[monster_1] == [0, 0]
+
+    def test_monster_population(self):
+        monster_list = [Monster() for i in range(100)]
+        for i in monster_list:
+            i.set_random_monster()
+
+        field = Field(50, monster_list)
+        field.finalise_grid()
+        field.spawn_monsters()
+
+        previous_population = len(monster_list)
+
+        population = len([i for i in field.monster_locations.keys() if i.alive])
+
+        while population:
+            field.turn()
+            print(population)
+            population = len([i for i in field.monster_locations.keys() if i.alive])

@@ -126,4 +126,4 @@ class Monster:
             return Monster(x=partner, y=self)
 
     def set_random_monster(self):
-        self.genes = Genes(None, None).set_random_genes()
+        self.genes.set_random_genes()
