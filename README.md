@@ -6,7 +6,7 @@ A game where users collect monsters and release them on a field with other playe
 A monster can mutate and fit the environment of the field.
 
 # Web
-Planning to create a django app. 
+Django app.
 
 # Visualisation
 Visualisation is done by matplotlib. 
