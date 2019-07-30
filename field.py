@@ -1,5 +1,5 @@
 import math
-from collections import namedtuple
+from collections import namedtuple, deque
 from random import choice, random, randint
 import numpy as np
 from typing import List
@@ -77,6 +77,32 @@ class Field:
         self.monster_locations = {}
         self.food_locations = []
         self.water_locations = []
+
+    def easy_game(self):
+        """
+        Simplified game. Used for testing on web.
+        """
+        sorted_monster = sorted(self.monsters, key=lambda x: x.get_strength())
+        # set is faster to check inclusion
+        done = set()
+        result = {}
+
+        # todo optimise
+
+        for i, monster in enumerate(sorted_monster):
+            if monster not in done:
+                target: Monster = monster
+                monster_: Monster
+                for monster_ in sorted_monster:
+                    if monster_.gender != target.gender:
+                        child = monster_.breed(target)
+                        result[target] = child
+                        result[monster_] = child
+                        done.add(monster_)
+                        done.add(target)
+
+        result['ranking'] = sorted_monster
+        return result
 
     def fill_grid(self):
         # get probability of each subbiomes as a list
