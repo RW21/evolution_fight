@@ -78,11 +78,11 @@ class Field:
         self.food_locations = []
         self.water_locations = []
 
-    def easy_game(self):
+    def easy_game(self) -> dict:
         """
         Simplified game. Used for testing on web.
         """
-        sorted_monster = sorted(self.monsters, key=lambda x: x.get_strength())
+        sorted_monster = sorted(self.monsters, key=lambda x: x.get_strength(), reverse=True)
         # set is faster to check inclusion
         done = set()
         result = {}
@@ -94,12 +94,13 @@ class Field:
                 target: Monster = monster
                 monster_: Monster
                 for monster_ in sorted_monster:
-                    if monster_.gender != target.gender:
+                    if monster_.gender != target.gender and monster_ not in done:
                         child = monster_.breed(target)
                         result[target] = child
                         result[monster_] = child
                         done.add(monster_)
                         done.add(target)
+                        break
 
         result['ranking'] = sorted_monster
         return result
