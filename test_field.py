@@ -134,3 +134,39 @@ class TestField(TestCase):
             field.turn()
             print(population)
             population = len([i for i in field.monster_locations.keys() if i.alive])
+
+    def test_easy_game(self):
+        monster_a = Monster()
+        monster_a.genes.phenotype.size = 100
+        monster_a.genes.phenotype.speed = 100
+        monster_a.gender = True
+        monster_a.name = 'a'
+
+        monster_b = Monster()
+        monster_b.genes.phenotype.size = 75
+        monster_b.genes.phenotype.speed = 75
+        monster_b.gender = False
+        monster_b.name = 'b'
+
+        monster_c = Monster()
+        monster_c.genes.phenotype.size = 50
+        monster_c.genes.phenotype.speed = 50
+        monster_c.gender = True
+        monster_c.name = 'c'
+
+        # monster a and b will breed
+
+        field = Field(5, [monster_a, monster_b, monster_c])
+        easy_game = field.easy_game()
+        print(easy_game)
+
+        def check_keyerror(key) -> bool:
+            try:
+                easy_game[key]
+            except KeyError:
+                return True
+            finally:
+                return False
+
+        assert easy_game[monster_a] and easy_game[monster_b] and check_keyerror(monster_c) and easy_game['result'] == [
+            monster_a, monster_b, monster_c]
