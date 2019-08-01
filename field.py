@@ -96,6 +96,7 @@ class Field:
                 for monster_ in sorted_monster:
                     if monster_.gender != target.gender and monster_ not in done:
                         child = monster_.breed(target)
+                        child.owner_id = monster.owner_id
                         result[target] = child
                         result[monster_] = child
                         done.add(monster_)

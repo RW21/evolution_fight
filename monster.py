@@ -28,6 +28,7 @@ class Monster:
 
         self.maximum = 100
 
+        self.owner_id = 0
         self.monster_id = 0
 
         if name is None:
