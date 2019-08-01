@@ -9,11 +9,29 @@ sizes = {'eye': (3, 3), 'mouth': (6, 2), 'left_arm': (2, 2), 'left_leg': (2, 2),
 
 
 class MonsterImage:
-    def __init__(self, dict_of_parts=None):
-        self.eye: np.ndarray = np.zeros(sizes['eye'])
-        self.mouth: np.ndarray = np.zeros(sizes['mouth'])
-        self.left_arm: np.ndarray = np.zeros(sizes['left_arm'])
-        self.left_leg: np.ndarray = np.zeros(sizes['left_leg'])
+    def __init__(self, dict_of_parts=None, entire_array=None):
+        if entire_array:
+            self.entire_array = entire_array
+            # left eye
+            self.eye = entire_array[0:3, 0:3]
+            # right eye
+            self.eye = entire_array[7:10, 0:3]
+            # left arm
+            self.left_arm = entire_array[0:2, 4:6]
+            # right arm
+            self.left_arm = np.flip(entire_array[8:10, 4:6], 1)
+            # mouth
+            self.mouth = entire_array[2:8, 6:8]
+            # leg
+            self.left_leg = entire_array[0:2, 8:10]
+            # right leg
+            self.left_leg = np.flip(entire_array[8:10, 8:10], 1)
+
+        else:
+            self.eye: np.ndarray = np.zeros(sizes['eye'])
+            self.mouth: np.ndarray = np.zeros(sizes['mouth'])
+            self.left_arm: np.ndarray = np.zeros(sizes['left_arm'])
+            self.left_leg: np.ndarray = np.zeros(sizes['left_leg'])
 
         if dict_of_parts:
             for part, size in dict_of_parts.items():
@@ -39,28 +57,30 @@ class MonsterImage:
         self.left_leg = np.random.randint(0, high=2, size=sizes['left_leg'])
 
     def generate_entire_array(self):
+        if self.entire_array:
+            return self.entire_array
+        else:
+            monster_array = np.zeros(sizes['whole'])
 
-        monster_array = np.zeros(sizes['whole'])
+            # left eye
+            monster_array[0:3, 0:3] = self.eye
+            # right eye
+            monster_array[7:10, 0:3] = np.flip(self.eye, 1)
 
-        # left eye
-        monster_array[0:3, 0:3] = self.eye
-        # right eye
-        monster_array[7:10, 0:3] = np.flip(self.eye, 1)
+            # left arm
+            monster_array[0:2, 4:6] = self.left_arm
+            # right arm
+            monster_array[8:10, 4:6] = self.left_arm
 
-        # left arm
-        monster_array[0:2, 4:6] = self.left_arm
-        # right arm
-        monster_array[8:10, 4:6] = self.left_arm
+            # mouth
+            monster_array[2:8, 6:8] = self.mouth
 
-        # mouth
-        monster_array[2:8, 6:8] = self.mouth
+            # leg
+            monster_array[0:2, 8:10] = self.left_leg
+            # right leg
+            monster_array[8:10, 8:10] = self.left_leg
 
-        # leg
-        monster_array[0:2, 8:10] = self.left_leg
-        # right leg
-        monster_array[8:10, 8:10] = self.left_leg
-
-        return monster_array
+            return monster_array
 
     def generate_image(self) -> Image:
         """ Returns PIL image. Make sure to use TIFF format when saving."""
