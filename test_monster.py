@@ -1,4 +1,6 @@
 from unittest import TestCase
+
+from field import Field
 from monster import *
 from monster_image import MonsterImage
 
@@ -27,8 +29,26 @@ class TestMonster(TestCase):
         monster_2 = Monster()
         monster_2.set_random_monster()
 
-        monster_3 = Monster()
+        monster_3 = monster_1.breed(monster_2)
         monster_3.genes.image = MonsterImage(
             dict_of_parts=monster_1.genes.image.generate_combined_parts(monster_2.genes.image))
 
         monster_3.genes.image.generate_image().save('test.jpg')
+
+    def test_monster_image_easy_game(self):
+        monster_1 = Monster()
+        monster_1.set_random_monster()
+        monster_1.gender = True
+
+        monster_2 = Monster()
+        monster_2.set_random_monster()
+        monster_2.gender = False
+
+        field = Field(2, [monster_2, monster_1])
+        result = field.easy_game(3)
+        del result['ranking']
+
+        for monster in result.values():
+            monster: Monster
+            if monster != monster_1 and monster != monster_2:
+                monster.genes.image.generate_image().save('test.jpg')
