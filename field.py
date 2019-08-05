@@ -78,7 +78,7 @@ class Field:
         self.food_locations = []
         self.water_locations = []
 
-    def easy_game(self) -> dict:
+    def easy_game(self, max_id: int) -> dict:
         """
         Simplified game. Used for testing on web.
         """
@@ -95,8 +95,12 @@ class Field:
                 monster_: Monster
                 for monster_ in sorted_monster:
                     if monster_.gender != target.gender and monster_ not in done:
+                        max_id += 1
+
                         child = monster_.breed(target)
                         child.owner_id = monster.owner_id
+                        child.monster_id = max_id
+
                         result[target] = child
                         result[monster_] = child
                         done.add(monster_)

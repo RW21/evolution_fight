@@ -12,8 +12,11 @@ class Genes:
             self.mother = female
             self.heredity()
             self.genotype: dict = {self.mother: self.mother.genes.phenotype, self.father: self.father.genes.phenotype}
+            female.genes.image.generate_combined_parts(male.genes.image)
+            self.image = MonsterImage(dict_of_parts=female.genes.image.generate_combined_parts(male.genes.image))
 
-        self.image = MonsterImage()
+        else:
+            self.image = MonsterImage()
 
     def heredity(self):
         """

@@ -10,7 +10,7 @@ sizes = {'eye': (3, 3), 'mouth': (6, 2), 'left_arm': (2, 2), 'left_leg': (2, 2),
 
 class MonsterImage:
     def __init__(self, dict_of_parts=None, entire_array=None):
-        if entire_array:
+        if entire_array is not None:
             self.entire_array = entire_array
             # left eye
             self.eye = entire_array[0:3, 0:3]
@@ -28,6 +28,7 @@ class MonsterImage:
             self.left_leg = np.flip(entire_array[8:10, 8:10], 1)
 
         else:
+            self.entire_array = None
             self.eye: np.ndarray = np.zeros(sizes['eye'])
             self.mouth: np.ndarray = np.zeros(sizes['mouth'])
             self.left_arm: np.ndarray = np.zeros(sizes['left_arm'])
@@ -57,7 +58,7 @@ class MonsterImage:
         self.left_leg = np.random.randint(0, high=2, size=sizes['left_leg'])
 
     def generate_entire_array(self):
-        if self.entire_array:
+        if self.entire_array is not None:
             return self.entire_array
         else:
             monster_array = np.zeros(sizes['whole'])
