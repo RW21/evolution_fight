@@ -10,37 +10,58 @@ sizes = {'eye': (3, 3), 'mouth': (6, 2), 'left_arm': (2, 2), 'left_leg': (2, 2),
 
 class MonsterImage:
     def __init__(self, dict_of_parts=None, entire_array=None):
-        if entire_array is not None:
-            self.entire_array = entire_array
-            # left eye
-            self.eye = entire_array[0:3, 0:3]
-            # right eye
-            self.eye = entire_array[7:10, 0:3]
-            # left arm
-            self.left_arm = entire_array[0:2, 4:6]
-            # right arm
-            self.left_arm = np.flip(entire_array[8:10, 4:6], 1)
-            # mouth
-            self.mouth = entire_array[2:8, 6:8]
-            # leg
-            self.left_leg = entire_array[0:2, 8:10]
-            # right leg
-            self.left_leg = np.flip(entire_array[8:10, 8:10], 1)
+        try:
+            if self.entire_array is not None:
+                entire_array = self.entire_array
+                # left eye
+                self.eye = entire_array[0:3, 0:3]
+                # right eye
+                self.eye = entire_array[7:10, 0:3]
+                # left arm
+                self.left_arm = entire_array[0:2, 4:6]
+                # right arm
+                self.left_arm = np.flip(entire_array[8:10, 4:6], 1)
+                # mouth
+                self.mouth = entire_array[2:8, 6:8]
+                # leg
+                self.left_leg = entire_array[0:2, 8:10]
+                # right leg
+                self.left_leg = np.flip(entire_array[8:10, 8:10], 1)
+                pass
 
-        else:
-            self.entire_array = None
-            self.eye: np.ndarray = np.zeros(sizes['eye'])
-            self.mouth: np.ndarray = np.zeros(sizes['mouth'])
-            self.left_arm: np.ndarray = np.zeros(sizes['left_arm'])
-            self.left_leg: np.ndarray = np.zeros(sizes['left_leg'])
+        except AttributeError:
+            if entire_array is not None:
+                self.entire_array = entire_array
+                # left eye
+                self.eye = entire_array[0:3, 0:3]
+                # right eye
+                self.eye = entire_array[7:10, 0:3]
+                # left arm
+                self.left_arm = entire_array[0:2, 4:6]
+                # right arm
+                self.left_arm = np.flip(entire_array[8:10, 4:6], 1)
+                # mouth
+                self.mouth = entire_array[2:8, 6:8]
+                # leg
+                self.left_leg = entire_array[0:2, 8:10]
+                # right leg
+                self.left_leg = np.flip(entire_array[8:10, 8:10], 1)
 
-        if dict_of_parts:
-            for part, size in dict_of_parts.items():
-                if part != 'whole':
-                    setattr(self, part, size)
+            elif entire_array is None:
+                # self.entire_array = None
 
-        if not self.ensure_size():
-            raise InvalidSizeException
+                self.eye: np.ndarray = np.zeros(sizes['eye'])
+                self.mouth: np.ndarray = np.zeros(sizes['mouth'])
+                self.left_arm: np.ndarray = np.zeros(sizes['left_arm'])
+                self.left_leg: np.ndarray = np.zeros(sizes['left_leg'])
+
+            if dict_of_parts:
+                for part, size in dict_of_parts.items():
+                    if part != 'whole':
+                        setattr(self, part, size)
+
+            if not self.ensure_size() and self.entire_array is not None:
+                raise InvalidSizeException
 
     def ensure_size(self):
         if self.eye.shape == sizes['eye'] and \

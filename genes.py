@@ -12,8 +12,12 @@ class Genes:
             self.mother = female
             self.heredity()
             self.genotype: dict = {self.mother: self.mother.genes.phenotype, self.father: self.father.genes.phenotype}
-            female.genes.image.generate_combined_parts(male.genes.image)
-            self.image = MonsterImage(dict_of_parts=female.genes.image.generate_combined_parts(male.genes.image))
+
+            m_image: MonsterImage = self.mother.genes.image()
+            print(m_image.entire_array)
+            f_image: MonsterImage = self.father.genes.image()
+            part_dict = m_image.generate_combined_parts(f_image)
+            self.image = MonsterImage(dict_of_parts=part_dict)
 
         else:
             self.image = MonsterImage()
