@@ -2,11 +2,18 @@
 [![forthebadge](https://forthebadge.com/images/badges/mom-made-pizza-rolls.svg)](https://forthebadge.com)
 
 # Evolution Fight
-A game where users collect monsters and release them on a field with other player's monster.
-A monster can mutate and fit the environment of the field.
+
+Evolution Game is a simulation of monsters in an environment. It uses an evolutionary algorithm to determine the best suited monster in the environment.
+
 
 # Web
-Django app.
+
+A Django app is currently deployed on [www.kanji.works](http://www.kanji.works/). 
+
+## Screenshots
+
+![](example/website_example_1.jpg)
+
 
 # Visualisation
 Visualisation is done by matplotlib. 
@@ -14,7 +21,11 @@ Visualisation is done by matplotlib.
 Example image of a field (as of 30/05/2019):
 ![plot of field](example/example_plot_1.png)
 
+# Monsters
 
+Monsters get unique appearances reflecting their genes.
+
+![](example/monster_example.jpg)
 
 # Rules
 
